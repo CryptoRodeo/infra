@@ -1,0 +1,39 @@
+---
+- name: "Make sure zsh is installed"
+  apt:
+    name: "zsh"
+    state: present
+
+- name: "Check if zsh is the user's default shell"
+  shell: "echo $SHELL"
+  register: shell_type
+
+- name: "Change shell to zsh if its not the default shell"
+  user:
+    name: "{{ username }}"
+    shell: "{{ shell }}"
+  when: shell_type.stdout != "/usr/bin/zsh"
+
+- name: "Check if .oh-my-zsh directory exists"
+  stat:
+    path: "/home/kilgore/.oh-my-zsh"
+  register: oh_my_zsh_dir
+
+- name: "Does the directory exist? [debug]"
+  debug:
+    msg: "The directory doesnt exists"
+  when: not oh_my_zsh_dir.stat.exists
+
+- name: "clone oh-my-zsh for user"
+  command: "git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh"
+  args:
+    chdir: "~"
+    creates: "~/.oh-my-zsh"
+  when: not oh_my_zsh_dir.stat.exists
+
+- name: "write to the .zshrc file"
+  template:
+    src: zshrc.j2
+    dest: "~/.zshrc"
+    backup: yes
+    mode: 'u=rw,go=r'
