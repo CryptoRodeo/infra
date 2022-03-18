@@ -1,5 +1,19 @@
 ---
 # defaults file for dotfiles
+
+##############################
+# TMUX configs
+##############################
+
+tmux_theme: dracula/tmux
+
+# I have this set to my repo but you can also use the offical one: https://github.com/tmux-plugins/tpm
+tmux_plugin_manager_repo: https://github.com/CryptoRodeo/tpm
+
+##############################
+# ZSH configs
+##############################
+
 # Default theme
 oh_my_zsh_theme: robbyrussell
 
