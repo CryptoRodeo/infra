@@ -1,0 +1,27 @@
+---
+# tasks file for configuring tmux + tmux plugins
+
+- name: "Create a .tmux.conf file if its doesn't exist"
+  file:
+    path: "/home/{{ username }}/.tmux.conf"
+    state: touch
+    mode: 'u=rw,go=r'
+
+- name: "Write to the .tmux.conf file"
+  template:
+    src: tmux.conf.j2
+    dest: "~/.tmux.conf"
+    backup: yes
+    mode: 'u=rw,go=r'
+
+- name: "Check if the plugin manager files are already installed"
+  stat:
+    path: "/home/{{ username }}/.tmux/plugins/tpm"
+  register: tmux_plugin_manager_dir
+
+- name: "Clone tmux plugin manager files"
+  command: "git clone {{ tmux_plugin_manager_repo}} ~/.tmux/plugins/tpm"
+  args:
+    chdir: "~"
+    creates: "~/.tmux/plugins/tpm"
+  when: not tmux_plugin_manager_dir.stat.exists

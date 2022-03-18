@@ -9,5 +9,6 @@ extra_packages:
   - git
   - network-manager
   - zsh
+  - tmux
 
 shell: /usr/bin/zsh

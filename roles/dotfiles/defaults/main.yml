@@ -1,0 +1,38 @@
+---
+# defaults file for dotfiles
+
+##############################
+# TMUX configs
+##############################
+
+tmux_theme: dracula/tmux
+
+# I have this set to my repo but you can also use the offical one: https://github.com/tmux-plugins/tpm
+tmux_plugin_manager_repo: https://github.com/CryptoRodeo/tpm
+
+##############################
+# ZSH configs
+##############################
+
+# Default theme
+oh_my_zsh_theme: robbyrussell
+
+# Default plugins
+oh_my_zsh_plugins:
+  - git
+
+# omz - oh my zsh
+omz:
+  - username: "{{ username }}"
+    theme: robbyrussell
+    plugins:
+      - git
+
+##############################
+# VIM
+##############################
+
+# Note, you can also use: https://github.com/amix/vimrc.git
+vim_runtime_repo: https://github.com/CryptoRodeo/vimrc-1
+
+vim_wiki_repo: https://github.com/CryptoRodeo/vimwiki # alternate: https://github.com/vimwiki/vimwiki.git
