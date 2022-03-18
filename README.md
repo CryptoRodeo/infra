@@ -1,5 +1,6 @@
 # Infra
---
+---
+
 An Ansible Playbook that sets up:
 - My Ubuntu-based home server
 - Raspberry Pi OS local DNS server
