@@ -1,3 +1,4 @@
 ---
 # tasks file for dotfiles
 - include_tasks: zsh.yml
+- include_tasks: tmux.yml
