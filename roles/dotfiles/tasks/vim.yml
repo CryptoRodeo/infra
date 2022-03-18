@@ -1,0 +1,35 @@
+---
+- name: "Make sure vim is installed"
+  apt:
+    name: "vim"
+    state: present
+
+- name: "Check if vim plugins are already installed"
+  stat:
+    path: "/home/{{ username}}/.vim_runtime"
+  register: vim_plugin_dir
+
+- name: "Clone vim config files to ~/.vim_runtime"
+  command: "git clone --depth=1 {{ vim_runtime_repo }} ~/.vim_runtime"
+  args:
+    chdir: "~"
+    creates: "~/.vim_runtime"
+  when: not vim_plugin_dir.stat.exists
+
+- name: "Check if at least the basic configs are installed"
+  stat:
+    path: "~/.vimrc"
+  register: basic_vim_installation
+
+- name: "Run the installation script"
+  command: "sh ~/.vim_runtime/install_awesome_vimrc.sh"
+  when: not basic_vim_installation.stat.exists
+
+- name: "Check if vimwiki plugin is installed"
+  stat:
+    path: "~/.vim_runtime/my_plugins/vimwiki"
+  register: vimwiki
+
+- name: "Clone vimwiki plugin repo"
+  command: "git clone {{ vim_wiki_repo }} ~/.vim_runtime/my_plugins/vimwiki"
+  when: not vimwiki.stat.exists
