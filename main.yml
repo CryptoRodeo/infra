@@ -14,3 +14,12 @@
     - role: system
       tags: 
         - system
+
+- hosts: nuc
+  become: yes
+  become_user: "{{ username }}"
+  roles:
+  #
+  # Dotfiles for the main server
+  #
+  - role: dotfiles
