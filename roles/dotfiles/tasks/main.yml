@@ -1,0 +1,3 @@
+---
+# tasks file for dotfiles
+- include_tasks: zsh.yml
