@@ -27,3 +27,12 @@ omz:
     theme: robbyrussell
     plugins:
       - git
+
+##############################
+# VIM
+##############################
+
+# Note, you can also use: https://github.com/amix/vimrc.git
+vim_runtime_repo: https://github.com/CryptoRodeo/vimrc-1
+
+vim_wiki_repo: https://github.com/CryptoRodeo/vimwiki # alternate: https://github.com/vimwiki/vimwiki.git
