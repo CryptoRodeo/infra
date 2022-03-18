@@ -1,0 +1,16 @@
+---
+#
+# Tasks and roles for all hosts
+#
+
+- hosts: all
+  gather_facts: no
+  become: yes
+
+  roles:
+    #
+    # Basics
+    #
+    - role: system
+      tags: 
+        - system

@@ -1,0 +1,13 @@
+---
+
+vars_files:
+  - secrets.yml # username, pass, etc
+
+extra_packages:
+  - vim
+  - htop
+  - git
+  - network-manager
+  - zsh
+
+shell: /usr/bin/zsh
