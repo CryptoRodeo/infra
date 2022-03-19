@@ -1,5 +1,9 @@
 ---
 # handlers file for system
-- name: netplan apply
+- name: netplan_apply
   command:
     cmd: netplan apply
+
+- name: nmcli_reload
+  command:
+    cmd: nmcli connection reload
