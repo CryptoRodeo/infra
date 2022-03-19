@@ -10,5 +10,6 @@ extra_packages:
   - network-manager
   - zsh
   - tmux
+  - curl
 
 shell: /usr/bin/zsh

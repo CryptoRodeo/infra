@@ -1,0 +1,16 @@
+---
+# Permission Related
+- name: "Make sure we have the local public ssh key file"
+  become_user: "{{ local_username }}"
+  stat:
+    path: "{{ user_local_ssh_key }}"
+  register: local_ssh_key
+  delegate_to: localhost
+
+- name: "Add host SSH key to authorized_keys file for password-less SSH logins"
+  become_user: "{{ username }}"
+  authorized_key:
+    user: "{{ username }}"
+    state: present
+    manage_dir: yes
+    key: "{{ lookup('file', '{{ user_local_ssh_key }}') }}"
