@@ -1,0 +1,29 @@
+{{ ansible_managed | comment }}
+
+[connection]
+id={{ network_manager_config.ssid }}
+uuid={{ network_manager_config.uuid }}
+type={{ network_manager_config.type }}
+interface-name={{ network_manager_config.interface }}
+permissions=
+
+[wifi]
+mac-address-blacklist=
+mode=infrastructure
+ssid={{ network_manager_config.ssid }}
+
+[wifi-security]
+auth-alg=open
+key-mgmt={{ network_manager_config.key_mgmt }}
+psk={{ network_manager_config.psk }}
+
+[ipv4]
+dns-search=
+method=auto
+
+[ipv6]
+addr-gen-mode=stable-privacy
+dns-search=
+method=auto
+
+[proxy]

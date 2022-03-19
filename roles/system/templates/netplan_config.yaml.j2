@@ -1,0 +1,13 @@
+{{ ansible_managed | comment }}
+
+network:
+  version: 2
+  renderer: {{ netplan_renderer }}
+  ethernets:
+    enp0s3:
+      dhcp4: false
+      addresses: [{{ nucbox_ip_addr }}/{{ subnet_prefix_length }}]
+      gateway4: {{ gateway }}
+      nameservers:
+        addresses: [{{ nameserver }}]
+

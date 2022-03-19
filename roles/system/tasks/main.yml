@@ -1,5 +1,11 @@
 ---
+# Comment out to get facts
+# - name: Print all available facts
+#   ansible.builtin.debug:
+#     var: ansible_facts
+
 # tasks file for system
 - include_tasks: essential.yml
 - include_tasks: user.yml
 - include_tasks: perms.yml
+- include_tasks: network.yml

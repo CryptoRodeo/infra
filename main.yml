@@ -1,18 +1,11 @@
 ---
-#
-# Tasks and roles for all hosts
-#
-
 - hosts: all
-  gather_facts: no
+  gather_facts: yes
   become: yes
 
   roles:
-    #
-    # Basics
-    #
     - role: system
-      tags: 
+      tags:
         - system
 
 - hosts: nuc

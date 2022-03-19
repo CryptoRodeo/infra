@@ -1,0 +1,44 @@
+---
+- name: Make sure NetworkManager is installed
+  apt:
+    name: "network-manager"
+    state: present
+
+- name: List the current config files (if any)
+  find:
+    paths: /etc/netplan
+    file_type: file
+    excludes:
+      - 00-ansible-managed.yaml
+      - 00-ansible-managed-backup.yaml
+  register: previous_config
+  when: ansible_facts['lsb']['id'] == 'Ubuntu'
+
+- name: Install netplan config
+  template:
+    src: netplan_config.yaml.j2
+    dest: '/etc/netplan/00-ansible-managed.yaml'
+    mode: 'u=rw,go=r'
+  notify: netplan_apply
+  when: ansible_facts['lsb']['id'] == 'Ubuntu'
+
+- name: "Create a backup of the netplan config (because template-backup won't do it)"
+  copy:
+    remote_src: yes
+    src: '/etc/netplan/00-ansible-managed.yaml'
+    dest: '/etc/netplan/00-ansible-managed-backup.yaml'
+  when: ansible_facts['lsb']['id'] == 'Ubuntu'
+
+- name: Remove old config files
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  with_items: "{{ previous_config['files'] }}"
+  when: ansible_facts['lsb']['id'] == 'Ubuntu'
+
+- name: Add NetworkManager nmconnection file
+  template:
+    src: network_manager_config.nmconnection.j2
+    dest: '/etc/NetworkManager/system-connections/{{ network_manager_config.ssid }}.nmconnection'
+    mode: 'u=rw,go=r'
+  notify: nmcli_reload
