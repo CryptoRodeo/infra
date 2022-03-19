@@ -22,4 +22,4 @@
   #
   # Dotfiles for the main server
   #
-  - role: dotfiles
+  - dotfiles
