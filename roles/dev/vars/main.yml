@@ -5,6 +5,7 @@
 
 docker:
   stable_repo_setup_cmd: 'echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/{{server_os}} $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null'
+  add_gpg_key_cmd: "curl -fsSL https://download.docker.com/linux/{{ server_os }}/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg"
   packages:
     - docker-ce
     - docker-ce-cli

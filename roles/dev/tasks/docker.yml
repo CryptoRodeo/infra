@@ -5,7 +5,7 @@
   register: docker_gpg_key
 
 - name: "Add docker GPG key if needed"
-  shell: " curl -fsSL https://download.docker.com/linux/{{ server_os }}/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg"
+  shell: "{{ add_gpg_key_cmd }}"
   when: not docker_gpg_key.stat.exists
 
 - name: "Set up stable repo"
