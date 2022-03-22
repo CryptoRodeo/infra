@@ -2,3 +2,5 @@
 # tasks file for dev
 
 - include_tasks: docker.yml
+- include_tasks: jenkins.yml
+- include_tasks: kubernetes.yml
