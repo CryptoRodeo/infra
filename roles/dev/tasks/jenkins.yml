@@ -1,0 +1,45 @@
+# cat roles/jenkins/tasks/main.yml
+---
+- name: install necessary packages for Jenkins
+  apt:
+    name: "{{ jenkins.packages }}"
+    state: present
+
+- name: import jenkins apt repo key
+  apt_key:
+    url: "{{ jenkins.apt_repo_key_url }}"
+    state: present
+
+- name: download jenkins repo
+  apt_repository:
+    repo: "{{ jenkins.apt_repo_url }}"
+    state: present
+    update_cache: true
+
+- name: install jenkins
+  apt:
+    name: jenkins
+    state: present
+
+- name: start jenkins
+  systemd:
+    name: jenkins
+    state: started
+
+- name: enable jenkins
+  systemd:
+    name: jenkins
+    enabled: true
+
+- name: open port to make jenkins accessible
+  ufw: 
+    port: "{{ jenkins.port }}"
+    rule: allow
+
+- name: grab the default admin pass
+  shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+  register: admin_pass
+
+- name: print admin pass
+  debug:
+    msg: "{{admin_pass.stdout}}"
