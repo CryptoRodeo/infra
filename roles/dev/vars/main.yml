@@ -20,3 +20,13 @@ jenkins:
   apt_repo_key_url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
   apt_repo_url: deb https://pkg.jenkins.io/debian-stable binary/ 
   port: 8080
+
+
+# K8s
+
+kubernetes:
+  packages:
+    - apt-transport-https 
+    - ca-certificates
+  apt_signing_key_url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+  apt_repo_url: deb https://apt.kubernetes.io/ kubernetes-xenial main
