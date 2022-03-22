@@ -10,3 +10,13 @@ docker:
     - docker-ce
     - docker-ce-cli
     - containerd.io
+
+
+# JENKINS
+
+jenkins:
+  packages:
+    - openjdk-11-jre
+  apt_repo_key_url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+  apt_repo_url: deb https://pkg.jenkins.io/debian-stable binary/ 
+  port: 8080
