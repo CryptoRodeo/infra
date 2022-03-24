@@ -4,3 +4,5 @@
 - include_tasks: docker.yml
 - include_tasks: jenkins.yml
 - include_tasks: kubernetes.yml
+- include_tasks: github.yml
+- include_tasks: ngrok.yml
