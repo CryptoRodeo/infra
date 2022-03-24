@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: nuc
   gather_facts: yes
   become: yes
 
@@ -9,10 +9,9 @@
         - system
 
 - hosts: nuc
+  gather_facts: yes
   become: yes
   become_user: "{{ username }}"
   roles:
-  #
-  # Dotfiles for the main server
-  #
+  - dev
   - dotfiles
