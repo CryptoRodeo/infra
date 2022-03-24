@@ -1,0 +1,26 @@
+---
+- name: Make sure the necessary pip packages are installed
+  pip:
+    name: 
+      - bcrypt
+      - cryptography>=3.0
+    state: present
+
+- name: Check for any existing keys
+  stat:
+    path: ~/.ssh/github_rsa
+  register: git_ssh_key
+
+- name: Generate a new ssh key
+  community.crypto.openssh_keypair:
+    path: ~/.ssh/github_rsa
+    passphrase: "{{ secret_github_rsa_pass }}"
+  when: not git_ssh_key.stat.exists
+
+- name: Grab the pub key
+  shell: cat "/home/{{username}}/.ssh/github_rsa.pub"
+  register: github_pub_key
+
+- name: Print the pub key
+  debug:
+    msg: "{{ github_pub_key.stdout }}"
