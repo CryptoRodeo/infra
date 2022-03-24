@@ -1,0 +1,31 @@
+---
+- name: Check if the binary is in usr/local/bin
+  stat:
+    path: "/home/{{username}}/ngrok-stable-linux-amd64.tgz"
+  register: ngrok_zip
+
+- name: Download ngrok
+  get_url:
+    url: "{{ ngrok_link }}"
+    dest: "/home/{{username}}"
+  when: not ngrok_zip.stat.exists
+
+- name: Check if the binary is in usr/local/bin
+  stat:
+    path: /usr/local/bin/ngrok
+  register: ngrok_binary
+
+- name: Unzip the ngrok file
+  unarchive:
+    src: "/home/{{username}}/ngrok-stable-linux-amd64.tgz"
+    dest: "/home/{{username}}"
+    remote_src: true
+  when: not ngrok_binary.stat.exists
+
+- name: move ngrok binary to /usr/local/bin
+  become: true
+  become_user: root
+  command: mv "/home/{{username}}/ngrok" /usr/local/bin/ngrok
+  when: not ngrok_binary.stat.exists
+
+- name: Add auth token TODO
