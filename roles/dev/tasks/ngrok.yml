@@ -1,19 +1,14 @@
 ---
 - name: Check if the binary is in usr/local/bin
   stat:
-    path: "/home/{{username}}/ngrok-stable-linux-amd64.tgz"
-  register: ngrok_zip
+    path: "/usr/local/bin/ngrok"
+  register: ngrok_binary
 
 - name: Download ngrok
   get_url:
     url: "{{ ngrok_link }}"
     dest: "/home/{{username}}"
-  when: not ngrok_zip.stat.exists
-
-- name: Check if the binary is in usr/local/bin
-  stat:
-    path: /usr/local/bin/ngrok
-  register: ngrok_binary
+  when: not ngrok_binary.stat.exists
 
 - name: Unzip the ngrok file
   unarchive:
@@ -28,4 +23,16 @@
   command: mv "/home/{{username}}/ngrok" /usr/local/bin/ngrok
   when: not ngrok_binary.stat.exists
 
-- name: Add auth token TODO
+- name: check if ngrok.yml exists
+  stat:
+    path: /home/{{username}}/.ngrok/ngrok.yml
+  register: ngrok_yml
+
+- name: Add auth token
+  shell: ngrok authtoken ngrok_api_key
+  when: ngrok_auth_token is defined and not ngrok_yml.stat.exists
+
+- name: Warn user theres no auth token
+  debug:
+    msg: var ngrok_auth_token is undefined, could not connect account
+  when: ngrok_auth_token is undefined
