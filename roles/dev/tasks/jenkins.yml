@@ -35,11 +35,20 @@
   ufw: 
     port: "{{ jenkins.port }}"
     rule: allow
+  become_user: root
 
+- name: check if default admin pass exists
+  stat:
+    path: /var/lib/jenkins/secrets/initialAdminPassword
+  register: default_admin_pass
+    
 - name: grab the default admin pass
   shell: cat /var/lib/jenkins/secrets/initialAdminPassword
   register: admin_pass
+  become_user: root
+  when: default_admin_pass.stat.exists
 
 - name: print admin pass
   debug:
     msg: "{{admin_pass.stdout}}"
+  when: default_admin_pass.stat.exists
