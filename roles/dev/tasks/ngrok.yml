@@ -25,14 +25,22 @@
 
 - name: check if ngrok.yml exists
   stat:
-    path: /home/{{username}}/.ngrok/ngrok.yml
+    path: "/home/{{username}}/.ngrok2/ngrok.yml"
   register: ngrok_yml
 
 - name: Add auth token
-  shell: ngrok authtoken ngrok_api_key
+  shell: ngrok authtoken "{{ngrok_auth_token}}"
   when: ngrok_auth_token is defined and not ngrok_yml.stat.exists
 
 - name: Warn user theres no auth token
   debug:
     msg: var ngrok_auth_token is undefined, could not connect account
   when: ngrok_auth_token is undefined
+
+- name: write to the ngrok.yml config file
+  template:
+    src: ngrok.yml.j2
+    dest: "/home/{{username}}/.ngrok2/ngrok.yml"
+    backup: yes
+    mode: 'u=rw,go=r'
+  when: ngrok_auth_token is defined
