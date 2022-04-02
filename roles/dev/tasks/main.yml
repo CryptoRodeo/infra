@@ -6,3 +6,4 @@
 - include_tasks: kubernetes.yml
 - include_tasks: github.yml
 - include_tasks: ngrok.yml
+- include_tasks: go.yml
