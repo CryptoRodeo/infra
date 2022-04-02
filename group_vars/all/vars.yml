@@ -11,5 +11,6 @@ extra_packages:
   - zsh
   - tmux
   - curl
+  - python3-pip
 
 shell: /usr/bin/zsh

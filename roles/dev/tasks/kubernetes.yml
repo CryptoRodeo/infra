@@ -1,0 +1,26 @@
+---
+
+- name: add Google public signing key
+  apt_key:
+    url: "{{ kubernetes.apt_signing_key_url }}"
+    state: present
+
+- name: download kubernetes repoa
+  apt_repository:
+    repo: "{{ kubernetes.apt_repo_url }}"
+    state: present
+    update_cache: true
+
+- name: install kubernetes
+  apt:
+    name: kubectl
+    state: present
+
+# Debug
+# - name: grab kubectl verification message
+#   shell: kubectl cluster-info dump
+#   register: verification_msg
+
+# - name: print verification message output
+#   debug:
+#     msg: "{{ verification_msg }}"

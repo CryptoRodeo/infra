@@ -1,0 +1,32 @@
+---
+# vars file for dev
+
+# DOCKER
+
+docker:
+  stable_repo_setup_cmd: 'echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/{{server_os}} $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null'
+  add_gpg_key_cmd: "curl -fsSL https://download.docker.com/linux/{{ server_os }}/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg"
+  packages:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+
+
+# JENKINS
+
+jenkins:
+  packages:
+    - openjdk-11-jre
+  apt_repo_key_url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+  apt_repo_url: deb https://pkg.jenkins.io/debian-stable binary/ 
+  port: 8080
+
+
+# K8s
+
+kubernetes:
+  packages:
+    - apt-transport-https 
+    - ca-certificates
+  apt_signing_key_url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+  apt_repo_url: deb https://apt.kubernetes.io/ kubernetes-xenial main

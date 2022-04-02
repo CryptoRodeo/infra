@@ -1,0 +1,28 @@
+---
+- name: "Check if docker GPG key exists"
+  stat:
+    path: /usr/share/keyrings/docker-archive-keyring.gpg
+  register: docker_gpg_key
+
+- name: "Add docker GPG key if needed"
+  shell: "{{ add_gpg_key_cmd }}"
+  when: not docker_gpg_key.stat.exists
+
+- name: "Set up stable repo"
+  shell: "{{ docker.stable_repo_setup_cmd }}"
+
+- name: "Update all packages (apt-get update)"
+  shell: "sudo apt-get update"
+
+- name: "Install docker packages"
+  apt:
+    name: "{{ docker.packages }}"
+    state: present
+
+- name: Run hello-world container
+  shell: "sudo docker run hello-world"
+  register: docker_hello_world_output
+
+- name: Check if hello-world container ran
+  debug:
+    msg: "{{ docker_hello_world_output.stdout }}"
