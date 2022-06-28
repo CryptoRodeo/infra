@@ -1,0 +1,12 @@
+---
+- name: Create directory for homer files
+  file:
+    path: ~/homer/
+    state: directory
+    mode: 755
+
+- name: Make sure docker-py is installed
+  pip:
+    name:
+      - docker
+    state: present

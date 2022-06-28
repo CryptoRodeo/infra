@@ -1,0 +1,4 @@
+---
+# tasks file for homer
+- include_tasks: setup.yml
+- include_tasks: docker.yml

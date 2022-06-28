@@ -1,0 +1,23 @@
+---
+- name: create Homer network
+  docker_network:
+    name: homer_network
+    state: present
+
+- name: create and run Homer container
+  docker_container:
+    name: 'homer'
+    image: 'b4bz/homer'
+    networks:
+      - name: homer_network
+        aliases:
+        - homer_net
+    pull: true
+    state: 'started'
+    env:
+      "UID": "{{ guid }}"
+      "GID": "{{ guid }}"
+      "TZ": "{{ timezone }}"
+    volumes:
+      - "/home/kilgore/homer/:/www/assets/"
+    restart_policy: unless-stopped
