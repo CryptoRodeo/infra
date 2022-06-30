@@ -5,6 +5,7 @@
     name: microk8s
     classic: true
     state: present
+  become_user: root
 
 - name: Add user to microk8s admin group
   user:
@@ -12,6 +13,7 @@
     groups:
       - microk8s
     append: yes
+  become_user: root
 
 - name: Change group ownership of ~/.kube
   file:
@@ -19,6 +21,7 @@
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"
+  become_user: root
 
 - name: Grab the value of microk8s status
   shell: "microk8s status"
@@ -28,11 +31,5 @@
   debug:
     msg: "{{ microk_status }}"
 
-# Debug
-# - name: grab kubectl verification message
-#   shell: kubectl cluster-info dump
-#   register: verification_msg
-
-# - name: print verification message output
-#   debug:
-#     msg: "{{ verification_msg }}"
+- name: Enable services
+  shell: "microk8s enable dashboard dns ingress"
