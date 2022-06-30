@@ -9,6 +9,7 @@
   apt_key:
     url: "{{ jenkins.apt_repo_key_url }}"
     state: present
+  become_user: root
 
 - name: download jenkins repo
   apt_repository:
@@ -41,6 +42,7 @@
   stat:
     path: /var/lib/jenkins/secrets/initialAdminPassword
   register: default_admin_pass
+  become_user: root
     
 - name: grab the default admin pass
   shell: cat /var/lib/jenkins/secrets/initialAdminPassword
