@@ -1,20 +1,32 @@
 ---
 
-- name: add Google public signing key
-  apt_key:
-    url: "{{ kubernetes.apt_signing_key_url }}"
+- name: Install Kubernetes
+  snap:
+    name: microk8s
+    classic: true
     state: present
 
-- name: download kubernetes repoa
-  apt_repository:
-    repo: "{{ kubernetes.apt_repo_url }}"
-    state: present
-    update_cache: true
+- name: Add user to microk8s admin group
+  user:
+    name: "{{ username }}"
+    groups:
+      - microk8s
+    append: yes
 
-- name: install kubernetes
-  apt:
-    name: kubectl
-    state: present
+- name: Change group ownership of ~/.kube
+  file:
+    path: "/home/{{ username }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+
+- name: Grab the value of microk8s status
+  shell: "microk8s status"
+  register: microk_status
+
+- name: Output microk8s status
+  debug:
+    msg: "{{ microk_status }}"
 
 # Debug
 # - name: grab kubectl verification message
