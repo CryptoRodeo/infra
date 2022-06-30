@@ -1,6 +1,5 @@
 Dev
 =========
-
 Sets up and installs the following:
 - Docker
 - Jenkins
@@ -18,4 +17,4 @@ Role Variables
 
 Dependencies
 ------------
-- pending
+- Some variables from group_vars/all/secrets.yml
