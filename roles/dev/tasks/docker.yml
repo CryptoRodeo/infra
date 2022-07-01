@@ -12,7 +12,9 @@
   shell: "{{ docker.stable_repo_setup_cmd }}"
 
 - name: "Update all packages (apt-get update)"
-  shell: "sudo apt-get update"
+  apt:
+    update_cache: yes
+  become_user: root
 
 - name: "Install docker packages"
   apt:
@@ -20,8 +22,9 @@
     state: present
 
 - name: Run hello-world container
-  shell: "sudo docker run hello-world"
+  shell: "docker run hello-world"
   register: docker_hello_world_output
+  become_user: root
 
 - name: Check if hello-world container ran
   debug:
