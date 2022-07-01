@@ -101,3 +101,9 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+# minikube requires access to the internet via HTTP, HTTPS, and DNS protocols.
+#
+export HTTP_PROXY=http://<proxy hostname:port>
+export HTTPS_PROXY=https://<proxy hostname:port>
+export NO_PROXY=localhost,127.0.0.1,10.96.0.0/12,192.168.59.0/24,192.168.39.0/24
