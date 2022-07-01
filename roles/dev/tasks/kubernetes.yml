@@ -2,34 +2,16 @@
 
 - name: Install Kubernetes
   snap:
-    name: microk8s
+    name: kubectl
     classic: true
     state: present
   become_user: root
 
-- name: Add user to microk8s admin group
-  user:
-    name: "{{ username }}"
-    groups:
-      - microk8s
-    append: yes
+- name: Download minikube
+  get_url:
+    url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+    dest: "/home/{{username}}"
+
+- name: Install minikube
+  shell: install minikube-linux-amd64 /usr/local/bin/minikube
   become_user: root
-
-- name: Change group ownership of ~/.kube
-  file:
-    path: "/home/{{ username }}"
-    state: directory
-    owner: "{{ username }}"
-    group: "{{ username }}"
-  become_user: root
-
-- name: Grab the value of microk8s status
-  shell: "microk8s status"
-  register: microk_status
-
-- name: Output microk8s status
-  debug:
-    msg: "{{ microk_status }}"
-
-- name: Enable services
-  shell: "microk8s enable dashboard dns ingress"
