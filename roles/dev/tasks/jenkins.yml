@@ -38,6 +38,12 @@
     rule: allow
   become_user: root
 
+- name: Add jenkins to Docker user group
+  user:
+    name: jenkins
+    groups: jenkins, docker
+  become_user: root
+
 - name: check if default admin pass exists
   stat:
     path: /var/lib/jenkins/secrets/initialAdminPassword
