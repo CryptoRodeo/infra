@@ -1,34 +1,8 @@
 ---
-- name: download go binary
-  get_url:
-    url: https://go.dev/dl/go1.18.linux-amd64.tar.gz
-    dest: "/home/{{username}}"
-
-- name: delete any previous installations
-  shell: rm -rf /usr/local/go
+- import_role:
+    name: abdennour.golang
+  vars:
+    golang_version: "{{ go_version }}"
+    golang_users:
+      - "{{ username }}"
   become_user: root
-
-- name: extract go to/usr/local
-  shell: tar -C /usr/local -xzf go1.18.linux-amd64.tar.gz
-  become_user: root
-
-- name: add /usr/local/go to PATH env variable
-  lineinfile:
-    path: "{{item}}"
-    regexp: '^export PATH=$PATH:/usr/local/go/bin'
-    line: 'export PATH=$PATH:/usr/local/go/bin'
-    state: present
-  with_items:
-  - /etc/profile
-  - ~/.profile
-  - ~/.zshrc
-  - ~/.bashrc
-
-
-- name: apply changes to profile
-  command: $SHELL -c 'source {{item}}'
-  with_items:
-  - /etc/profile
-  - ~/.profile
-  - ~/.zshrc
-  - ~/.bashrc
