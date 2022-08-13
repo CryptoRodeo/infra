@@ -1,9 +1,8 @@
 ---
-# Permission Related
 - name: "Make sure we have the local public ssh key file"
-  become_user: "{{ local_username }}"
+  become_user: "{{ localhost_username }}"
   stat:
-    path: "{{ user_local_ssh_key }}"
+    path: "{{ localhost_ssh_key }}"
   register: local_ssh_key
   delegate_to: localhost
 
@@ -13,4 +12,4 @@
     user: "{{ username }}"
     state: present
     manage_dir: yes
-    key: "{{ lookup('file', '{{ user_local_ssh_key }}') }}"
+    key: "{{ lookup('file', '{{ localhost_ssh_key }}') }}"
