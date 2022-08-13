@@ -1,0 +1,24 @@
+---
+
+- name: Check if nodejs is installed (/usr/bin/node)
+  stat:
+    path: /usr/bin/node
+  register: node_dir
+  become_user: root
+
+- name: Get NodeJS from NodeSource if not installed
+  shell: "{{ get_nodejs_cmd }}"
+  when: not node_dir.stat.exists
+
+- name: Check if NVM is installed
+  stat:
+    path: ~/.nvm
+  register: nvm_directory
+
+- name: Install NVM
+  shell: > 
+    "{{ get_nvm_script }}"
+  args:
+    creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
+  when: not nvm_directory.stat.exists
+  become_user: root
