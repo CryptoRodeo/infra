@@ -30,3 +30,14 @@ kubernetes:
     - ca-certificates
   apt_signing_key_url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
   apt_repo_url: deb https://apt.kubernetes.io/ kubernetes-xenial main
+
+
+# NodeJS, NPM, NVM
+
+nodejs_version: 18
+get_nodejs_cmd: "curl -fsSL https://deb.nodesource.com/setup_{{ nodejs_version }}.x | sudo -E bash -"
+get_nvm_script: "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash"
+
+# Golang
+
+go_version: "1.18"
