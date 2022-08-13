@@ -6,7 +6,7 @@ network:
   ethernets:
     enp0s3:
       dhcp4: false
-      addresses: [{{ nucbox_ip_addr }}/{{ subnet_prefix_length }}]
+      addresses: [{{ lookup('vars', inventory_hostname + '_ip_addr') }}/{{ subnet_prefix_length }}]
       gateway4: {{ gateway }}
       nameservers:
         addresses: [{{ nameserver }}]
