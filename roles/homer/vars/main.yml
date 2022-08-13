@@ -1,0 +1,2 @@
+# Homer vars
+homer_dir: "/home/{{ username }}/homer"

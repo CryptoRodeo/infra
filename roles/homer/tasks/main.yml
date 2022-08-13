@@ -1,0 +1,32 @@
+- name: Start homer container
+  docker_container:
+    name: homer
+    image: b4bz/homer
+    state: 'started'
+    env:
+      "UID": "{{ UID }}"
+      "GID": "{{ GID }}"
+    mounts:
+    - source: "{{homer_dir}}/local/assets"
+      target: /www/assets
+      type: bind
+      read_only: no
+    ports:
+      - 80:8080
+    restart_policy: unless-stopped
+
+- name: Get Dracula theme if needed
+  git:
+    repo: 'https://github.com/dracula/homer.git'
+    dest: "{{homer_dir}}/local/dracula"
+    clone: yes
+
+- name: Move dracula files to homer assets folder
+  copy:
+    src: "{{homer_dir}}/local/dracula/{{item}}"
+    dest: "{{homer_dir}}/local/assets/{{item}}"
+    remote_src: yes
+  with_items:
+  - custom.css
+  - dracula-background.png
+
