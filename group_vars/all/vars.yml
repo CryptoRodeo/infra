@@ -1,7 +1,9 @@
 ---
 
 vars_files:
-  - secrets.yml # username, pass, etc
+  - secrets/auth.yml # username, password, UID, GID for server user
+  - secrets/network_config.yml # network configuration, host IP addresses, etc
+  - secrets/local.yml # local username, ssh key
 
 extra_packages:
   - vim
@@ -11,6 +13,11 @@ extra_packages:
   - zsh
   - tmux
   - curl
+  - python3
   - python3-pip
+  - pass
+  - gpg
+
+server_os: ubuntu
 
 shell: /usr/bin/zsh
