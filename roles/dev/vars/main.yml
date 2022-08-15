@@ -37,7 +37,3 @@ kubernetes:
 nodejs_version: 18
 get_nodejs_cmd: "curl -fsSL https://deb.nodesource.com/setup_{{ nodejs_version }}.x | sudo -E bash -"
 get_nvm_script: "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash"
-
-# Golang
-
-go_version: "1.18"

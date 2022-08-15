@@ -1,8 +1,21 @@
 ---
+- name: Create the go directory
+  become_user: root
+  file:
+    state: directory
+    path: "{{ item }}"
+    recurse: yes
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '0755'
+  with_items:
+  - /usr/local/go/bin
+  - /usr/local/share/go/bin/go
+
 - import_role:
     name: abdennour.golang
   vars:
-    golang_version: "{{ go_version }}"
+    golang_version: "1.18"
     golang_users:
       - "{{ username }}"
   become_user: root
