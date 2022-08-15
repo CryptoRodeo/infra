@@ -1,11 +1,18 @@
+- name: Create the directories
+  become_user: root
+  file:
+    state: directory
+    path: "{{ homer_dir }}"
+    recurse: yes
+    owner: "{{ username }}"
+    group: "docker"
+    mode: '0764'
+
 - name: Start homer container
   docker_container:
     name: homer
     image: b4bz/homer
     state: 'started'
-    env:
-      "UID": "{{ UID }}"
-      "GID": "{{ GID }}"
     mounts:
     - source: "{{homer_dir}}/local/assets"
       target: /www/assets
@@ -20,6 +27,7 @@
     repo: 'https://github.com/dracula/homer.git'
     dest: "{{homer_dir}}/local/dracula"
     clone: yes
+  ignore_errors: true
 
 - name: Move dracula files to homer assets folder
   copy:
